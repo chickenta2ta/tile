@@ -94,6 +94,7 @@ func main() {
 	size := flag.Int("s", 2048, "")
 	scale := flag.Float64("x", 0.25, "")
 	threshold := flag.Float64("h", 0.125, "")
+	maxTiles := flag.Int("m", 750, "")
 
 	flag.Parse()
 
@@ -126,9 +127,18 @@ func main() {
 	bounds := m.Bounds()
 	width, height := bounds.Max.X, bounds.Max.Y
 
+	tiles := 0
 	var wg sync.WaitGroup
+
+Loop:
 	for x := 0; x <= width-*size; x += *size {
 		for y := 0; y <= height-*size; y += *size {
+
+			tiles++
+			if tiles > *maxTiles {
+				break Loop
+			}
+
 			wg.Add(1)
 			go func(x, y int) {
 				defer wg.Done()
