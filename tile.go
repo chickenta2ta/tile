@@ -52,6 +52,7 @@ func crop(m, n image.Image, x, y, size int, threshold, scale float64, imageId st
 	}).SubImage(rect)
 
 	if isBackground(subimage, threshold) {
+		subimage = nil
 		return
 	}
 
@@ -68,6 +69,7 @@ func crop(m, n image.Image, x, y, size int, threshold, scale float64, imageId st
 		fmt.Println(err)
 		return
 	}
+	subimage = nil
 
 	name := filepath.Join("/kaggle/working/patches", fmt.Sprintf("%s_%d_%d.png", imageId, x, y))
 	f, err := os.Create(name)
@@ -82,6 +84,7 @@ func crop(m, n image.Image, x, y, size int, threshold, scale float64, imageId st
 		fmt.Println(err)
 		return
 	}
+	newrgba = nil
 }
 
 func main() {
