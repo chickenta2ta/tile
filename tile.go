@@ -64,7 +64,7 @@ func crop(m, n image.Image, x, y, size int, threshold, scale float64, imageId st
 	rect = image.Rect(0, 0, int(float64(size)*scale), int(float64(size)*scale))
 	newrgba := image.NewRGBA(rect)
 
-	err := rez.Convert(newrgba, subimage, rez.NewBilinearFilter())
+	err := rez.Convert(newrgba, subimage, rez.NewLanczosFilter(3))
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -93,7 +93,7 @@ func main() {
 	imageId := flag.String("i", "image_id", "")
 	size := flag.Int("s", 2048, "")
 	scale := flag.Float64("x", 0.25, "")
-	threshold := flag.Float64("h", 0.125, "")
+	threshold := flag.Float64("h", 0.85, "")
 	maxTiles := flag.Int("m", 750, "")
 
 	flag.Parse()
