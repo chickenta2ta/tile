@@ -95,10 +95,18 @@ func main() {
 	scale := flag.Float64("x", 0.25, "")
 	threshold := flag.Float64("h", 0.85, "")
 	maxTiles := flag.Int("m", 750, "")
+	isThumbnail := flag.Bool("u", false, "")
 
 	flag.Parse()
 
-	f, err := os.Open(filepath.Join(*imagePath, fmt.Sprintf("%s.png", *imageId)))
+	var name string
+	if *isThumbnail {
+		name = fmt.Sprintf("%s_thumbnail.png", *imageId)
+	} else {
+		name = fmt.Sprintf("%s.png", *imageId)
+	}
+
+	f, err := os.Open(filepath.Join(*imagePath, name))
 	if err != nil {
 		fmt.Println(err)
 		return
